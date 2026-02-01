@@ -1,9 +1,9 @@
 <div align="left">
   <p>
-    <img src="https://i.imgur.com/DGvZWgB.png" width="600"/>
+    <img src="https://i.imgur.com/RjiDNHk.png" width="600"/>
   </p>
 </div>
 
-Collection of useful personal scripts for managing [moepictures](https://moepictures.net/). Usually for bulk actions to update data on multiple posts, etc.
+Collection of personal scripts for managing [moepictures](https://moepictures.net/). Usually for bulk actions to update data on multiple posts, etc.
 
-©2025 Moepictures
+©2026 Moepictures
