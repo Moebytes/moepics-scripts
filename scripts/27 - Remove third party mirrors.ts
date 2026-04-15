@@ -17,6 +17,7 @@ const removeThirdPartyMirrors = async () => {
             delete mirrors.gelbooru
             delete mirrors.safebooru
             delete mirrors.konachan
+            delete mirrors.yandere
             delete mirrors.eshuushuu
             delete mirrors.zerochan
             delete mirrors.animepictures
