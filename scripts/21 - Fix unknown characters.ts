@@ -20,7 +20,7 @@ const fixUnknownCharacters = async () => {
         if (post.pixivTags?.length) {
             let danbooruTags = [] as string[]
             for (const tag of post.pixivTags!) {
-                const wikiPages = await fetch(`https://danbooru.donmai.us/wiki_pages.json?commit=Search&search[other_names_match]=${encodeURIComponent(tag)}`).then((r) => r.json())
+                const wikiPages = await fetch(`https://danbooru.donmai.us/wiki_pages.json?commit=Search&search[other_names_match]=${encodeURIComponent(tag)}`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
                 if (wikiPages?.length) {
                     danbooruTags.push(wikiPages[0].title)
                     continue
@@ -76,9 +76,11 @@ const fixUnknownCharactersDanbooru = async () => {
     for (const post of posts) {
         i++
         if (Number(post.postID) < skip) continue
+        // @ts-ignore
         if (post.mirrors?.danbooru) {
+            // @ts-ignore
             let id = post.mirrors.danbooru.match(/\d+/)?.[0]
-            const danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`).then((r) => r.json())
+            const danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
             let tagString = `${danbooruPost.tag_string_character} ${danbooruPost.tag_string_copyright}`
             let moepicsTags = await moepics.misc.moepicsTags(tagString).then((r) => r.tags.split(/\s+/))
             if (moepicsTags.includes("original")) {

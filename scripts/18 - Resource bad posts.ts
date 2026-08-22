@@ -139,9 +139,11 @@ const resourceBadPosts = async () => {
         let imageLink = moepics.links.getImageLink(post.images[0], false)
         const buffer = await moepics.api.fetch(imageLink).then((r) => r.arrayBuffer())
         let pixivID = ""
+        // @ts-ignore
         if (post.mirrors?.danbooru) {
+            // @ts-ignore
             let id = post.mirrors?.danbooru?.match(/\d+/)?.[0]
-            let json = await fetch(`https://danbooru.donmai.us/posts/${id}.json`).then((r) => r.json())
+            let json = await fetch(`https://danbooru.donmai.us/posts/${id}.json`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
             if (json.source?.includes("pximg.net") || json.source?.includes("pixiv.net")) {
                 pixivID = path.basename(json.source).match(/\d+/)?.[0] ?? ""
             }

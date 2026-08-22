@@ -12,9 +12,11 @@ const fixMultipleCharacters = async () => {
         i++
         if (i < skip) continue
         console.log(i)
+        // @ts-ignore
         if (post.mirrors?.danbooru) {
+            // @ts-ignore
             const id = post.mirrors.danbooru.match(/\d+/)?.[0] ?? ""
-            const danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`).then((r) => r.json())
+            const danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
             let tags = danbooruPost.tag_string_general.split(/ +/g)
             await moepics.posts.removeTags(post.postID, ["multiple-characters", "solo"])
             if (tags.includes("multiple_girls")) {
@@ -44,6 +46,7 @@ const fixMultipleCharactersOther = async () => {
         i++
         if (i < skip) continue
         console.log(i)
+        // @ts-ignore
         if (post.mirrors?.danbooru) continue
         if (post.tags?.includes("multiple-characters")) {
             let characterTags = post.tags.filter((r) => tagMap[r].type === "character")

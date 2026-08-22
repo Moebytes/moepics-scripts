@@ -77,9 +77,11 @@ export const updateOtherDirectLinks = async () => {
         if (post.images.length > 1) continue
         if (post.images[0].directLink) continue
         console.log(i)
+        // @ts-ignore
         if (post.mirrors?.danbooru) {
+            // @ts-ignore
             let id = post.mirrors.danbooru.match(/\d+/)?.[0] ?? ""
-            const json = await fetch(`https://danbooru.donmai.us/posts/${id}.json`).then((r) => r.json())
+            const json = await fetch(`https://danbooru.donmai.us/posts/${id}.json`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
             if (json.source?.includes("pximg.net") || json.source?.includes("pbs.twimg")) {
                 let image = post.images[0]
                 await moepics.images.update(image.imageID, "directLink", json.source)

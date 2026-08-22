@@ -7,6 +7,7 @@ import wanakana from "wanakana"
 import pinyin from "pinyin"
 import * as hangul from "hangul-romanization"
 import path from "path"
+import crypto from "crypto"
 import fs from "fs"
 
 const moepics = new Moepictures(process.env.MOEPICTURES_API_KEY!)
@@ -45,12 +46,20 @@ export default class Functions {
         return phash(buffer).then((hash: string) => this.binaryToHex(hash))
     }
 
+    public static pixelHash = async (buffer: Buffer) => {
+        const rawBuffer = await sharp(buffer, {limitInputPixels: false})
+        .ensureAlpha().toColorspace("srgb").raw().toBuffer()
+        return crypto.createHash("md5").update(rawBuffer).digest("hex")
+    }
+
     public static getDanbooruArtistTag = async (tag: string) => {
         const posts = await moepics.search.posts({query: tag})
         for (const post of posts) {
+            // @ts-ignore
             if (post.mirrors?.danbooru) {
+                // @ts-ignore
                 let id = post.mirrors.danbooru.match(/\d+/)?.[0]
-                let danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`).then((r) => r.json())
+                let danbooruPost = await fetch(`https://danbooru.donmai.us/posts/${id}.json`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
                 if (danbooruPost.tag_string_artist?.split(" ").length > 1) continue
                 const danbooruArtistTag = danbooruPost.tag_string_artist?.split(" ")[0]
                 return danbooruArtistTag as string

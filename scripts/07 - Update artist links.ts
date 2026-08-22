@@ -109,13 +109,13 @@ const updateArtistLinks = async () => {
 
         let danbooruArtistTag = await functions.getDanbooruArtistTag(tag.tag)
         if (!danbooruArtistTag) continue
-        const searchResult = await fetch(`https://danbooru.donmai.us/artists.json?commit=Search&search%5Bany_name_matches%5D=${danbooruArtistTag}&search%5Border%5D=created_at`).then((r) => r.json())
+        const searchResult = await fetch(`https://danbooru.donmai.us/artists.json?commit=Search&search%5Bany_name_matches%5D=${danbooruArtistTag}&search%5Border%5D=created_at`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
         const id = searchResult.find((r: any) => !r?.is_deleted)?.id 
         if (!id) continue
-        let artistData = await fetch(`https://danbooru.donmai.us/artist_urls.json?commit=Search&search[artist][id]=${id}&search[order]=id`).then((r) => r.json())
+        let artistData = await fetch(`https://danbooru.donmai.us/artist_urls.json?commit=Search&search[artist][id]=${id}&search[order]=id`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
         if (!artistData.length) continue
         if (artistData.length >= 20) {
-            const moreResults = await fetch(`https://danbooru.donmai.us/artist_urls.json?commit=Search&page=2&search[artist][id]=${id}&search[order]=id`).then((r) => r.json())
+            const moreResults = await fetch(`https://danbooru.donmai.us/artist_urls.json?commit=Search&page=2&search[artist][id]=${id}&search[order]=id`, {headers: {"user-agent": "user #576533"}}).then((r) => r.json())
             artistData = functions.removeDuplicates([...artistData, ...moreResults])
         }
         const parsedURLs = artistData.reverse().filter((url: any) => url?.is_active).map((url: any) => url?.url)
