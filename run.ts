@@ -1,5 +1,5 @@
 import "dotenv/config"
-import runScript from "./scripts/28 - Check variation integrity"
+import runScript from "./scripts/30 - Update implications"
 
 const start = async () => {
     runScript()
