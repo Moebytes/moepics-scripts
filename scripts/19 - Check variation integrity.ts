@@ -23,7 +23,7 @@ const checkVariationIntegrity = async () => {
         if (post.tags.includes("skip-variation-integrity")) continue
 
         if (post.sourceImageCount && post.sourceImageCount > 1) {
-            let counter = Number(post.variationCount)
+            let counter = Number(post.variantCount)
             if (post.hasChildren) {
                 const children = await moepics.posts.children(post.postID)
                 counter += children.length

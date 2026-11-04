@@ -3,8 +3,10 @@ dist
 .DS_Store
 .env
 model
+sort
 dump
 conflicts.json
+hashes.json
 ocr/comictextdetector.pt
 charactersplit/rtmdetl_e60.ckpt
 charactersplit/refine_last.ckpt
